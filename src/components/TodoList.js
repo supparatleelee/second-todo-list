@@ -1,15 +1,14 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 
-function TodoList() {
+function TodoList(props) {
   return (
     <>
       <ul className="list-group my-2">
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
+        {/* Don't forget to put key when mapping */}
+        {props.todos.map((item) => (
+          <TodoItem key={item.id} todo={item} fetchTodos={props.fetchTodos} />
+        ))}
       </ul>
     </>
   );

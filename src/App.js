@@ -1,22 +1,45 @@
-import Pagination from './components/Pagination';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import TodoContainer from './components/TodoContainer';
 import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
 
 function App() {
+  const [todos, setTodos] = useState([]);
+
+  const fetchTodos = async () => {
+    try {
+      const res = await axios.get('http://localhost:8080/todos');
+      setTodos(res.data.todos);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // link data from the server into todos state -- use useEffect as we need that data from external.
+  useEffect(() => {
+    // axios
+    //   .get('http://localhost:8080/todos')
+    //   .then((res) => {
+    //     //response from axios => data, status, statusText. headers, request
+    //     // console.log(res.data);
+    //     setTodos(res.data.todos);
+    //     console.log(todos);
+    //     // see react components in the browser.
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    fetchTodos();
+  }, []); // because we just want to fetch data just once.
+
   return (
     <div className="container mt-5 mb-3" style={{ maxWidth: 576 }}>
       <div className="my-4">
         {/* because we're gonna reuse the TodoForm again, so we don't want margin-y 4 */}
-        <TodoForm />
+        <TodoForm fetchTodos={fetchTodos} />
       </div>
-      <TodoContainer />
-      <TodoList />
 
-      <div className="my-2 d-flex justify-content-between align-items-center">
-        <small className="text-muted">Showing 6 to 10 of 12 entries</small>
-        <Pagination />
-      </div>
+      <TodoContainer todos={todos} fetchTodos={fetchTodos} />
     </div>
   );
 }
