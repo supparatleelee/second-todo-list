@@ -10,13 +10,17 @@ function TodoContainer(props) {
   return (
     <>
       <div className="my-2 d-flex gap-3">
-        <SeachText />
-        <SearchStatus />
+        <SeachText setSearch={props.setSearch} search={props.search} />
+        <SearchStatus
+          todos={props.todos}
+          fetchTodos={props.fetchTodos}
+          setCompletedTasks={props.setCompletedTasks}
+        />
       </div>
 
       <div className="my-2 d-flex justify-content-between">
         <PageLimit />
-        <Sort />
+        <Sort setSortAtoZ={props.setSortAtoZ} />
       </div>
 
       <TodoList todos={props.todos} fetchTodos={props.fetchTodos} />

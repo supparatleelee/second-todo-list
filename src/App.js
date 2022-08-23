@@ -5,10 +5,15 @@ import TodoForm from './components/TodoForm';
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [search, setSearch] = useState('');
+  const [completedTasks, setCompletedTasks] = useState('');
+  const [sortAtoZ, setSortAtoZ] = useState('title');
+
+  const url = `http://localhost:8080/todos?title=${search}&completed=${completedTasks}&sort=${sortAtoZ}`;
 
   const fetchTodos = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/todos');
+      const res = await axios.get(url);
       setTodos(res.data.todos);
     } catch (err) {
       console.log(err);
@@ -29,8 +34,18 @@ function App() {
     //   .catch((err) => {
     //     console.log(err);
     //   });
-    fetchTodos();
-  }, []); // because we just want to fetch data just once.
+    if (search === '') {
+      fetchTodos();
+    } else {
+      const delayDebounceFn = setTimeout(() => {
+        console.log(search);
+        // Send Axios request here
+        fetchTodos();
+      }, 3000);
+
+      return () => clearTimeout(delayDebounceFn);
+    }
+  }, [url]); // [] - because we just want to fetch data just once.
 
   const handleSubmitCreate = async (title) => {
     try {
@@ -52,7 +67,14 @@ function App() {
         <TodoForm onSubmit={handleSubmitCreate} />
       </div>
 
-      <TodoContainer todos={todos} fetchTodos={fetchTodos} />
+      <TodoContainer
+        todos={todos}
+        fetchTodos={fetchTodos}
+        setSearch={setSearch}
+        search={search}
+        setCompletedTasks={setCompletedTasks}
+        setSortAtoZ={setSortAtoZ}
+      />
     </div>
   );
 }

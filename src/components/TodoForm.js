@@ -38,6 +38,7 @@ function TodoForm(props) {
           type="text"
           className="form-control"
           value={title}
+          placeholder="Create Todo-List..."
           onChange={(e) => {
             setTitle(e.target.value);
             // console.log(title);
