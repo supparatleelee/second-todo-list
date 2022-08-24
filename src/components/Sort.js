@@ -12,7 +12,9 @@ function Sort(props) {
             props.setSortAtoZ(e.target.value);
             // console.log(e.target.value);
           }}
+          defaultValue="title"
         >
+          <option value="">Default</option>
           <option value="title">Title: A-Z</option>
           <option value="-title">Title: Z-A</option>
         </select>

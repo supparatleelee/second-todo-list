@@ -7,6 +7,8 @@ import TodoList from './TodoList';
 import Pagination from './Pagination';
 
 function TodoContainer(props) {
+  // const [pageLimit, setPageLimit] = useState(5);
+
   return (
     <>
       <div className="my-2 d-flex gap-3">
@@ -19,15 +21,36 @@ function TodoContainer(props) {
       </div>
 
       <div className="my-2 d-flex justify-content-between">
-        <PageLimit />
+        <PageLimit
+          setPageLimit={props.setPageLimit}
+          pageLimit={props.pageLimit}
+        />
         <Sort setSortAtoZ={props.setSortAtoZ} />
       </div>
 
-      <TodoList todos={props.todos} fetchTodos={props.fetchTodos} />
+      <TodoList
+        todos={props.todos}
+        fetchTodos={props.fetchTodos}
+        // pageLimit={props.pageLimit}
+      />
 
       <div className="my-2 d-flex justify-content-between align-items-center">
-        <small className="text-muted">Showing 6 to 10 of 12 entries</small>
-        <Pagination />
+        <small className="text-muted">
+          {/* page: 1, pageLimit: 5 - 1 to 5 */}
+          {/* page: 2, pageLimit: 5 - 6 to 10 */}
+          {/* page: 3, pageLimit: 5 - 11 to 14*/}
+          Showing {(props.page - 1) * props.pageLimit + 1} to{' '}
+          {props.page == props.numPage
+            ? props.total
+            : props.page * props.pageLimit}{' '}
+          of {props.total} entries
+        </small>
+        <Pagination
+          setPage={props.setPage}
+          page={props.page}
+          pageLimit={props.pageLimit}
+          numPage={props.numPage}
+        />
       </div>
     </>
   );

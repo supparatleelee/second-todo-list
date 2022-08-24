@@ -8,13 +8,19 @@ function App() {
   const [search, setSearch] = useState('');
   const [completedTasks, setCompletedTasks] = useState('');
   const [sortAtoZ, setSortAtoZ] = useState('title');
+  const [pageLimit, setPageLimit] = useState(5);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
 
-  const url = `http://localhost:8080/todos?title=${search}&completed=${completedTasks}&sort=${sortAtoZ}`;
+  const numPage = Math.ceil(total / pageLimit);
+
+  const url = `http://localhost:8080/todos?title=${search}&completed=${completedTasks}&sort=${sortAtoZ}&page=${page}&limit=${pageLimit}`;
 
   const fetchTodos = async () => {
     try {
       const res = await axios.get(url);
       setTodos(res.data.todos);
+      setTotal(res.data.total);
     } catch (err) {
       console.log(err);
     }
@@ -41,15 +47,17 @@ function App() {
         console.log(search);
         // Send Axios request here
         fetchTodos();
-      }, 3000);
+      }, 500);
 
       return () => clearTimeout(delayDebounceFn);
     }
+    // eslint-disable-next-line
   }, [url]); // [] - because we just want to fetch data just once.
+  // [p1, p2, p3] - if one of them changes, this fetchTodos function will be worked.
 
   const handleSubmitCreate = async (title) => {
     try {
-      const res = await axios.post('http://localhost:8080/todos', {
+      await axios.post('http://localhost:8080/todos', {
         title,
         completed: false,
       });
@@ -74,6 +82,12 @@ function App() {
         search={search}
         setCompletedTasks={setCompletedTasks}
         setSortAtoZ={setSortAtoZ}
+        setPageLimit={setPageLimit}
+        pageLimit={pageLimit}
+        setPage={setPage}
+        page={page}
+        numPage={numPage}
+        total={total}
       />
     </div>
   );

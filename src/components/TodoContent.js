@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import TodoForm from './TodoForm';
 
 function TodoContent(props) {
   const { title, completed } = props.todo;

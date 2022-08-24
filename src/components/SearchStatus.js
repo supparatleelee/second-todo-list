@@ -1,10 +1,9 @@
 import React from 'react';
-import axios from 'axios';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 function SearchStatus(props) {
-  const [todos, setTodos] = useState([]);
-  const { data, fetchTodos } = props;
+  // const [todos, setTodos] = useState([]);
+  // const { data, fetchTodos } = props;
 
   return (
     <div className="btn-group">
