@@ -1,14 +1,18 @@
 import React from 'react';
+// import { useContext } from 'react';
+// import { ContextObject } from '../App';
 
-function TodoContent() {
+function TodoContent({ todo: { title, completed } }) {
+  // const contextValue = useContext(ContextObject);
   return (
     <div className="d-flex align-items-center">
       <span className="flex-fill" role="button">
-        Watch movie
+        {/* {contextValue.name} */}
+        {title}
       </span>
       <div className="btn-group">
         <button className="btn btn-outline-secondary">
-          <i className="fa-solid fa-toggle-off" />
+          <i className={`fa-solid fa-toggle-${completed ? 'on' : 'off'}`} />
         </button>
         <button className="btn btn-outline-secondary">
           <i className="fa-regular fa-trash-can" />
