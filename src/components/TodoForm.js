@@ -1,14 +1,20 @@
 import React, { useContext, useState } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
 
-function TodoForm() {
-  const [title, setTitle] = useState('');
-  const ctx = useContext(TodoContext);
+function TodoForm(props) {
+  const [title, setTitle] = useState(props.initialValue || '');
+  const { createTodos, fetchTodos } = useContext(TodoContext);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    ctx.createTodos(title);
+    createTodos(title);
+    // props.onSubmit(title);
     setTitle('');
+  };
+
+  const handleClickCancel = () => {
+    setTitle('');
+    props.onCancel?.();
   };
 
   return (
@@ -27,7 +33,7 @@ function TodoForm() {
         <button
           type="button"
           className="btn btn-outline-secondary"
-          onClick={() => setTitle('')}
+          onClick={handleClickCancel}
         >
           <i className="fa-solid fa-xmark" />
         </button>

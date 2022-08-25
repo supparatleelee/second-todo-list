@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TodoContext } from '../contexts/TodoContext';
 
 function Sort() {
+  const { setSortAtoZ } = useContext(TodoContext);
   return (
     <div className="my-2 d-flex justify-content-between">
       <div className="d-flex gap-2 align-items-center">
@@ -8,9 +10,12 @@ function Sort() {
         <select
           className="form-select form-select-sm"
           style={{ width: '8rem' }}
+          onChange={(e) => setSortAtoZ(e.target.value)}
+          defaultValue="title"
         >
-          <option>Title: A-Z</option>
-          <option>Title: Z-A</option>
+          <option value="">None</option>
+          <option value="title">Title: A-Z</option>
+          <option value="-title">Title: Z-A</option>
         </select>
       </div>
     </div>

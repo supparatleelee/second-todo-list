@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import TodoContainer from './components/TodoContainer';
 import TodoForm from './components/TodoForm';
 
-import TodoContextProvider, { TodoContext } from './contexts/TodoContext';
+import TodoContextProvider from './contexts/TodoContext';
 
 //create it here because we need to create <ContextObject.Provider>
 // const ContextObject = createContext();
